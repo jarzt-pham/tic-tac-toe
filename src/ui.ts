@@ -57,8 +57,10 @@ export module INTERFACE {
     dialogueInteractSelectPlayer.question(
       ` `,
       async (interfaceInput: string) => {
+        const interfaceClean = interfaceInput.trim();
+
         //validate
-        if (!ACCEPT_INTERFACE_VALUE.includes(interfaceInput)) {
+        if (!ACCEPT_INTERFACE_VALUE.includes(interfaceClean)) {
           await INTERACT.printSlowly(
             "You chose a type of interface incorrectly!\n"
           );
@@ -67,15 +69,15 @@ export module INTERFACE {
           return; // Exit the function to prevent further execution
         }
 
-        await INTERACT.printSlowly(`You choose ${interfaceInput}!`);
-        PLAYER.MAIN = interfaceInput as keyof Player;
+        await INTERACT.printSlowly(`You choose ${interfaceClean}!`);
+        PLAYER.MAIN = interfaceClean as keyof Player;
         PLAYER.ENEMY = ACCEPT_INTERFACE_VALUE.find(
-          (i) => i !== interfaceInput
+          (i) => i !== interfaceClean
         ) as keyof Player;
 
         console.log(`You: ${PLAYER.MAIN}\n`);
         console.log(`BOT: ${PLAYER.ENEMY}\n`);
-        dialogueInteractSelectPlayer.close();
+        // dialogueInteractSelectPlayer.close();
       }
     );
   };
